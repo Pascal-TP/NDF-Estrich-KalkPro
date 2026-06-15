@@ -6,7 +6,7 @@ let currentStep = 1;
 let serviceType = "withInsulation";
 let surfaceType = "standard";
 
-const € = (n) => new Intl.NumberFormat("de-DE", { style: "currency", currency: "EUR" }).format(n || 0);
+const eur = (n) => new Intl.NumberFormat("de-DE", { style: "currency", currency: "EUR" }).format(n || 0);
 const fmt = (n, d = 2) => new Intl.NumberFormat("de-DE", { minimumFractionDigits: d, maximumFractionDigits: d }).format(n || 0);
 const val = (id) => Number(document.getElementById(id)?.value || 0);
 
@@ -127,7 +127,7 @@ function calculate() {
 function renderSummary(d) {
   document.getElementById("summaryBox").innerHTML = `
     <div class="summary-box calc-box">
-      <strong>${€(d.total)} netto</strong>
+      <strong>${eur(d.total)} netto</strong>
       <div>${fmt(d.priceM2)} €/m² netto</div>
     </div>
     <div class="summary-box">
@@ -140,10 +140,10 @@ function renderSummary(d) {
     </div>
     <div class="summary-box">
       <strong>Kostenblöcke</strong>
-      <span class="tag">Material ${€(d.screedMaterial + d.insulationMaterial + d.foilEdge)}</span>
-      <span class="tag">Lohn ${€(d.labor)}</span>
-      <span class="tag">Gerät ${€(d.pump)}</span>
-      <span class="tag">GK/Gewinn ${€(d.overhead + d.profit)}</span>
+      <span class="tag">Material ${eur(d.screedMaterial + d.insulationMaterial + d.foilEdge)}</span>
+      <span class="tag">Lohn ${eur(d.labor)}</span>
+      <span class="tag">Gerät ${eur(d.pump)}</span>
+      <span class="tag">GK/Gewinn ${eur(d.overhead + d.profit)}</span>
     </div>
   `;
 }
@@ -168,14 +168,14 @@ function renderFinal(d) {
     <div class="technical-grid">
       <div><span>Projekt</span><strong>${document.getElementById("projectName").value || "-"}</strong></div>
       <div><span>Leistung</span><strong>${serviceType === "withInsulation" ? "Komplettleistung inkl. Dämmung" : "Nur Estrich"}</strong></div>
-      <div><span>Gesamt netto</span><strong>${€(d.total)}</strong></div>
+      <div><span>Gesamt netto</span><strong>${eur(d.total)}</strong></div>
       <div><span>m²-Preis netto</span><strong>${fmt(d.priceM2)} €/m²</strong></div>
     </div>
     <div class="result-table-wrap">
       <table class="result-table">
         <thead><tr><th>Kostenposition</th><th>Hinweis</th><th>Betrag</th></tr></thead>
-        <tbody>${rows.map(r => `<tr><td>${r[0]}</td><td>${r[2]}</td><td>${€(r[1])}</td></tr>`).join("")}</tbody>
-        <tfoot><tr><th colspan="2">Gesamt netto</th><th>${€(d.total)}</th></tr></tfoot>
+        <tbody>${rows.map(r => `<tr><td>${r[0]}</td><td>${r[2]}</td><td>${eur(r[1])}</td></tr>`).join("")}</tbody>
+        <tfoot><tr><th colspan="2">Gesamt netto</th><th>${eur(d.total)}</th></tr></tfoot>
       </table>
     </div>
     <p class="result-price-note">Hinweis: Demo-Kalkulation ohne technische Prüfung. Preise und Leistungswerte müssen durch echte NDF-Erfahrungswerte ersetzt werden.</p>
