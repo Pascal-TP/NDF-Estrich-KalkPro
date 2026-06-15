@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NDF Estrich KalkPro – Entwurf</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="hero">
+      <div class="hero-grid">
+        <div>
+          <h1>NDF Estrich KalkPro</h1>
+          <p>Entwurf für eine schnelle m²-Kalkulation: Estrich, Dämmung, Zusatzmittel, Lohn, Gerät, Anfahrt, Gemeinkosten und Gewinn.</p>
+        </div>
+        <div class="hero-logo-wrapper">
+          <span class="release-label">Entwurf / Demo</span>
+          <img src="logo.png" alt="NDF Logo" class="hero-logo" />
+        </div>
+      </div>
+    </header>
+
+    <main class="layout">
+      <aside class="steps">
+        <h2>Kalkulationsschritte</h2>
+        <div class="step-list" id="stepList"></div>
+        <p class="step-hint">Die Werte sind bewusst editierbar, damit Ihr sie später mit echten Erfahrungswerten ersetzen könnt.</p>
+      </aside>
+
+      <section class="content-card">
+        <section class="step-panel active" data-step-panel="1">
+          <h2 class="section-title">1. Projekt / Baustelle</h2>
+          <p class="section-subtitle">Grunddaten für die Kalkulation. Die Baustellengröße beeinflusst die Umlage von Anfahrt und Einrichtung.</p>
+          <div class="form-grid">
+            <div class="field"><label>Projekt / Kunde</label><input id="projectName" value="Musterbaustelle EFH" /></div>
+            <div class="field"><label>Fläche Estrich in m²</label><input id="area" type="number" min="1" step="1" value="150" /></div>
+            <div class="field"><label>Entfernung einfache Strecke in km</label><input id="distanceKm" type="number" min="0" step="1" value="35" /></div>
+            <div class="field"><label>Baustelleneinrichtung pauschal €</label><input id="setupCost" type="number" min="0" step="10" value="250" /></div>
+          </div>
+          <div class="choice-row">
+            <div class="choice-card active" data-service="withInsulation"><strong>Komplettleistung</strong><span>Dämmung, Folie/Randdämmstreifen und Estrich.</span></div>
+            <div class="choice-card" data-service="screedOnly"><strong>Nur Estrich</strong><span>Estrich auf vorhandener Dämmung / Fußbodenheizung.</span></div>
+          </div>
+        </section>
+
+        <section class="step-panel" data-step-panel="2">
+          <h2 class="section-title">2. Estrich</h2>
+          <p class="section-subtitle">Materialpreis und Dicke bestimmen den Materialanteil. Die Demo rechnet über €/m² je 10 mm Estrichdicke.</p>
+          <div class="form-grid">
+            <div class="field"><label>Estrichart</label><select id="screedType"><option value="Zementestrich">Zementestrich</option><option value="Calciumsulfat-Fließestrich">Calciumsulfat-Fließestrich</option><option value="Schnellestrich">Schnellestrich</option></select></div>
+            <div class="field"><label>Estrichdicke in mm</label><input id="screedThickness" type="number" min="20" step="5" value="55" /></div>
+            <div class="field"><label>Materialpreis Estrich €/m² je 10 mm</label><input id="screedRate10mm" type="number" min="0" step="0.10" value="1.65" /></div>
+            <div class="field"><label>Verschnitt / Reserve Estrich %</label><input id="screedWaste" type="number" min="0" step="0.5" value="5" /></div>
+          </div>
+          <div class="choice-row">
+            <div class="choice-card active" data-surface="standard"><strong>Standardoberfläche</strong><span>Normale Oberfläche ohne zusätzlichen Zuschlag.</span></div>
+            <div class="choice-card" data-surface="smoothed"><strong>Geglättet / verbessert</strong><span>Zusätzlicher Oberflächenzuschlag wird berücksichtigt.</span></div>
+          </div>
+          <div class="form-grid single hidden" id="surfaceBlock">
+            <div class="field"><label>Zuschlag Oberfläche €/m²</label><input id="surfaceSurcharge" type="number" min="0" step="0.10" value="2.50" /></div>
+          </div>
+        </section>
+
+        <section class="step-panel" data-step-panel="3">
+          <h2 class="section-title">3. Dämmung / Nebenmaterial</h2>
+          <p class="section-subtitle">Bei „Nur Estrich“ wird der Dämmblock automatisch nicht berechnet.</p>
+          <div id="insulationBlock" class="sub-block">
+            <h3>Dämmung</h3>
+            <div class="form-grid">
+              <div class="field"><label>Dämmstärke in mm</label><input id="insulationThickness" type="number" min="0" step="10" value="30" /></div>
+              <div class="field"><label>Dämmung €/m² je 10 mm</label><input id="insulationRate10mm" type="number" min="0" step="0.10" value="1.25" /></div>
+              <div class="field"><label>Verlegeleistung Dämmung m²/h je Mitarbeiter</label><input id="insulationProductivity" type="number" min="1" step="0.5" value="22" /></div>
+              <div class="field"><label>Verschnitt / Reserve Dämmung %</label><input id="insulationWaste" type="number" min="0" step="0.5" value="3" /></div>
+            </div>
+          </div>
+          <div class="sub-block" style="margin-top:16px;">
+            <h3>Folie / Randdämmstreifen</h3>
+            <div class="form-grid">
+              <div class="field"><label>Folie €/m²</label><input id="foilRate" type="number" min="0" step="0.05" value="0.35" /></div>
+              <div class="field"><label>Randdämmstreifen pauschal €/m²</label><input id="edgeRate" type="number" min="0" step="0.05" value="0.45" /></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="step-panel" data-step-panel="4">
+          <h2 class="section-title">4. Zusatzmittel</h2>
+          <p class="section-subtitle">Zusatzmittel können als €/m²-Zuschlag aktiviert werden.</p>
+          <div class="check-list">
+            <label class="check-option"><input id="additiveFast" type="checkbox" /> Schnelltrockner / Beschleuniger</label>
+            <label class="check-option"><input id="additiveFiber" type="checkbox" /> Faserbewehrung</label>
+            <label class="check-option"><input id="additiveFluid" type="checkbox" /> Fließmittel / Sonderzusatz</label>
+          </div>
+          <div class="form-grid three" style="margin-top:16px;">
+            <div class="field"><label>Schnelltrockner €/m²</label><input id="additiveFastRate" type="number" min="0" step="0.10" value="3.50" /></div>
+            <div class="field"><label>Faserbewehrung €/m²</label><input id="additiveFiberRate" type="number" min="0" step="0.10" value="1.10" /></div>
+            <div class="field"><label>Sonderzusatz €/m²</label><input id="additiveFluidRate" type="number" min="0" step="0.10" value="0.85" /></div>
+          </div>
+        </section>
+
+        <section class="step-panel" data-step-panel="5">
+          <h2 class="section-title">5. Lohn / Gerät / Zuschläge</h2>
+          <p class="section-subtitle">Hier wird die Kolonnenleistung gerechnet: Fläche ÷ Mitarbeiter ÷ Leistung pro Stunde.</p>
+          <div class="form-grid three">
+            <div class="field"><label>Anzahl Estrichleger</label><input id="workers" type="number" min="1" step="1" value="3" /></div>
+            <div class="field"><label>Stundensatz je Mitarbeiter €/h</label><input id="hourlyRate" type="number" min="0" step="1" value="58" /></div>
+            <div class="field"><label>Leistung Estrich m²/h je Mitarbeiter</label><input id="screedProductivity" type="number" min="1" step="0.5" value="12" /></div>
+            <div class="field"><label>Gerätekosten Estrichpumpe €/m²</label><input id="pumpRate" type="number" min="0" step="0.10" value="2.25" /></div>
+            <div class="field"><label>Anfahrt €/km</label><input id="travelRateKm" type="number" min="0" step="0.10" value="1.20" /></div>
+            <div class="field"><label>Mindest-/Kleinstellenzuschlag €</label><input id="smallSiteSurcharge" type="number" min="0" step="10" value="350" /></div>
+          </div>
+          <div class="form-grid three">
+            <div class="field"><label>Kleinstellenzuschlag bis m²</label><input id="smallSiteLimit" type="number" min="0" step="1" value="80" /></div>
+            <div class="field"><label>Gemeinkosten %</label><input id="overheadPercent" type="number" min="0" step="0.5" value="12" /></div>
+            <div class="field"><label>Gewinn / Sicherheit %</label><input id="profitPercent" type="number" min="0" step="0.5" value="15" /></div>
+          </div>
+        </section>
+
+        <section class="step-panel" data-step-panel="6">
+          <h2 class="section-title">6. Ergebnis</h2>
+          <p class="section-subtitle">Kalkulationsübersicht mit Kostenblöcken, Netto-Gesamtpreis und m²-Preis.</p>
+          <div id="finalResult"></div>
+          <div class="result-actions">
+            <button onclick="window.print()">Drucken / PDF</button>
+            <button class="secondary" id="backToEditBtn">Zurück zur Eingabe</button>
+          </div>
+        </section>
+
+        <div class="btn-row">
+          <button class="secondary" id="prevBtn">Zurück</button>
+          <div class="btn-group">
+            <button class="secondary" id="resetBtn">Demo-Werte neu laden</button>
+            <button id="nextBtn">Weiter</button>
+          </div>
+        </div>
+      </section>
+
+      <aside class="summary">
+        <h2>Live-Kalkulation</h2>
+        <button class="secondary clear-all-btn" id="calcBtn">Jetzt berechnen</button>
+        <div id="summaryBox"></div>
+      </aside>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
